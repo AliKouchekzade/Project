@@ -9,7 +9,7 @@ public class Manager {
     public static void start () throws SQLException {
         while (run) {
             if (LoginBool) Login.login();
-            //if (SignUpBool)
+            if (SignUpBool) SignUp.signup();
             if (HomeBool) Home.home();
         }
     }
