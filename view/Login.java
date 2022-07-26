@@ -1,8 +1,8 @@
 package view;
+import model.User;
 
 import java.sql.SQLException;
 import java.util.Scanner;
-
 public class Login {
 
     static Scanner scanner = new Scanner(System.in);
@@ -36,6 +36,8 @@ public class Login {
         System.out.println(result);
         if (result.equals("login successfully")) {
             Home.myUserName = username;
+            Home.myID = User.getIDByUserName(username);
+            Home.businessAccount = User.getBoolADByID(Home.myID);
             Manager.LoginBool=false;
             Manager.HomeBool = true;
         }

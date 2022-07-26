@@ -30,10 +30,9 @@ public class SignUp {
         int SQNumber = scanner.nextInt();
         System.out.println("enter your answer");
         String answer = scanner.next();
-        System.out.println("choose your account type (Personal or Business)");
+        System.out.println("choose your account type (personal or business)");
         String accountType = scanner.next();
         String result = controller.SignUp.signup(username,password,password2,gender,email,BirthYear,SQNumber,answer,accountType);
         System.out.println(result);
     }
-
 }
