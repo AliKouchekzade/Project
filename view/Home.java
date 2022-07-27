@@ -470,6 +470,386 @@ public class Home
                     }
                 }
             }
+
+            if (x == 5) {
+                scanner.nextLine();
+                while (true) {
+                    System.out.println("Your Chats :");
+                    ArrayList<Integer> myGroupID =  User.getAllMyGroupName(myID);
+                    ArrayList<String> myGroupName = new ArrayList<>();
+                    for (Integer integer : myGroupID) {
+                        String name = User.getGroupNameByID(integer);
+                        myGroupName.add(name);
+                    }
+                    for (String chatBefore : User.getDirectMessageBefore(myID)) {
+                        System.out.println(chatBefore);
+                    }
+                    System.out.println("enter your chat or enter new user name or enter exit");
+                    String y = scanner.nextLine();
+                    if (y.equals("exit")) break;
+                    int IDToChat = User.getIDByUserName(y);
+                    if (IDToChat == -1) {System.out.println("User Not Found"); continue;}
+                    for (String s : User.getChatContent(myID, IDToChat)) {
+                        System.out.println(s);
+                    }
+                    while (true) {
+                        int blockCondition = User.checkBlock(myID,IDToChat);
+                        if (blockCondition == -1) System.out.println("1.send message");
+                        else System.out.println("you cant send message to this user");
+                        System.out.println("2.edit message\n3.delete message");
+                        if (blockCondition == -1) System.out.println("4.reply message");
+                        else System.out.println("you cant reply message to this user");
+                        System.out.println("5.forward message\n6.search message");
+                        if (blockCondition == 1) System.out.println("7.unblock this user\n8.exit");
+                        else System.out.println("7.block this user\n8.exit");
+
+                        int z = scanner.nextInt();
+                        scanner.nextLine();
+                        if (z == 1 && blockCondition == -1) {
+                            System.out.println("enter your message");
+                            y = scanner.nextLine();
+                            if (!User.insertNewDirectMessage(myID, IDToChat, y,java.time.LocalTime.now().toString().substring(0,8))) System.out.println("something went wrong");
+                            for (String s : User.getChatContent(myID, IDToChat)) {
+                                System.out.println(s);
+                            }
+                        }
+
+                        if (z == 2) {
+                            System.out.println("enter ID of message that you want to edit");
+                            int messageID = scanner.nextInt();
+                            scanner.nextLine();
+                            if (User.hasAccessToEditMessage(myID,messageID)) {
+                                System.out.println("enter your edited message");
+                                User.editMessage(messageID,scanner.nextLine());
+                                for (String s : User.getChatContent(myID, IDToChat)) {
+                                    System.out.println(s);
+                                }
+                            }
+                            else System.out.println("you don't have access to edit this message");
+                        }
+                        if (z == 3) {
+                            System.out.println("enter ID of message that you want to delete");
+                            int messageID = scanner.nextInt();
+                            scanner.nextLine();
+                            if (User.hasAccessToDeleteMessage(myID,messageID)) {
+                                User.deleteMessage(messageID);
+                                for (String s : User.getChatContent(myID, IDToChat)) {
+                                    System.out.println(s);
+                                }
+                            }
+                            else System.out.println("you don't have access to delete this message");
+                        }
+                        if (z == 4 && blockCondition == -1) {
+                            System.out.println("enter ID of message that you want to reply");
+                            int messageID = scanner.nextInt();
+                            scanner.nextLine();
+                            if (User.canReplyForward(myID,IDToChat,messageID)) {
+                                System.out.println("enter your reply");
+                                User.replyMessage(myID,IDToChat,scanner.nextLine(),messageID,java.time.LocalTime.now().toString().substring(0,8));
+                                for (String s : User.getChatContent(myID, IDToChat)) {
+                                    System.out.println(s);
+                                }
+                            }
+                            else System.out.println("you can't reply this message");
+                        }
+                        if (z == 5) {
+                            System.out.println("enter ID of message that you want to Forward");
+                            int messageID = scanner.nextInt();
+                            scanner.nextLine();
+                            if (User.canReplyForward(myID,IDToChat,messageID)) {
+                                System.out.println("enter name of user or group that you want to forward this message");
+                                String userNameToForward = scanner.nextLine();
+                                int origin = User.getForwardedIDByDirectMessageID(messageID);
+                                if (origin == 0) origin = User.getSenderIDFromDirectMessageID(messageID);
+                                boolean sentToUser = true;
+                                int IDToForward = User.getIDByUserName(userNameToForward);
+                                if (IDToForward == -1) {
+                                    if (myGroupName.contains(userNameToForward)) {
+                                        IDToForward = myGroupID.get(myGroupName.indexOf(userNameToForward));
+                                        sentToUser = false;
+                                    }
+                                    else {
+                                        System.out.println("User or Group Not Found"); continue;
+                                    }
+                                }
+
+                                if (sentToUser) {
+                                    int blockForwardCondition = User.checkBlock(myID,IDToForward);
+                                    if (blockForwardCondition == -1) {
+                                        User.forwardMessage(myID, IDToForward, User.getContentDirectMessageByID(messageID), origin, java.time.LocalTime.now().toString().substring(0, 8));
+                                        System.out.println("FORWARDED!");
+                                    }
+                                    else
+                                        System.out.println("you can't forward message to this user");
+                                }
+                                else {
+                                    boolean myBanCondition = User.isBanInGroup(myID,IDToForward);
+                                    if (!myBanCondition) {
+                                        User.forwardMessageInGroup(IDToForward, myID, User.getGroupContentByID(messageID), origin, java.time.LocalTime.now().toString().substring(0, 8));
+                                        System.out.println("FORWARDED!");
+                                    }
+                                    else
+                                        System.out.println("you cant forward message to this group");
+                                }
+                            }
+                            else
+                                System.out.println("you can't forward this message");
+                        }
+                        if (z == 6) {
+                            System.out.println("enter your message that you want to search");
+                            ArrayList<String> searchResult = User.searchInDirectMessage(myID,IDToChat,scanner.nextLine());
+                            if (searchResult.isEmpty()) System.out.println("No results!");
+                            else {
+                                for (String s : searchResult) {
+                                    System.out.println(s);
+                                }
+                                int search = scanner.nextInt();
+                                scanner.nextLine();
+                                boolean valid = false;
+                                for (String s : searchResult) {
+                                    if (s.contains("ID = " + search)) {
+                                        int siad = User.getSenderIDFromDirectMessageID(search);
+                                        String siadName = User.getUserNameByID(siad);
+                                        if (siad == myID) siadName = "YOU";
+                                        System.out.println(siadName + " : " + User.getContentDirectMessageByID(search));
+                                        valid = true;
+                                    }
+                                }
+                                if (!valid) System.out.println("Invalid ID");
+                            }
+                        }
+                        if (z == 7) {
+                            if (blockCondition == 1)
+                                User.unBlockUser(myID,IDToChat);
+                            else
+                                User.blockUser(myID,IDToChat);
+                        }
+                        if (z == 8) break;
+                    }
+                }
+            }
+
+            if (x == 6) {
+                scanner.nextLine();
+                while (true) {
+                    System.out.println("Your Groups : ");
+                    ArrayList<Integer> myGroupID =  User.getAllMyGroupName(myID);
+                    ArrayList<String> myGroupName = new ArrayList<>();
+                    for (Integer integer : myGroupID) {
+                        String name = User.getGroupNameByID(integer);
+                        System.out.print(name);
+                        System.out.println( " (" + User.getLastMessageInChat(myID,integer) + ")");
+                        myGroupName.add(name);
+                    }
+                    System.out.println("enter group name or enter create to create new group or enter exit");
+                    String input = scanner.nextLine();
+                    if (input.equals("exit")) break;
+                    if (input.equals("create")) {
+                        System.out.println("enter group name");
+                        User.createNewGroup(myID,scanner.nextLine());
+                        continue;
+                    }
+                    int groupID;
+                    boolean isAdmin;
+                    if (myGroupName.contains(input)) {
+                        groupID = myGroupID.get(myGroupName.indexOf(input));
+                        isAdmin = User.isAdmin(myID,groupID);
+                    }
+                    else  {System.out.println("Group Not Found"); continue;}
+
+                    for (String s : User.getGroupMessage(myID, groupID)) {
+                        System.out.println(s);
+                    }
+                    while (true) {
+                        boolean myBanCondition = User.isBanInGroup(myID,groupID);
+                        if (myBanCondition) System.out.println("you can't send message in this group");
+                        else System.out.println("1.Send Message");
+                        System.out.println("2.edit Message\n3.delete message");
+                        if (myBanCondition) System.out.println("you can't reply message in this group");
+                        else System.out.println("4.reply message");
+                        System.out.println("5.forward message\n6.search message\n7.see members\n8.leave group");
+                        if (isAdmin) System.out.println("9.add member\n10.remove member\n11.see ban members\n12.ban member\n13.unban member\n14.exit");
+                        else System.out.println("9.exit");
+                        int z = scanner.nextInt();
+                        scanner.nextLine();
+                        if (z == 1 && !myBanCondition) {
+                            System.out.println("enter your message");
+                            User.insertNewMessageIntoGroup(groupID,myID,scanner.nextLine(),java.time.LocalTime.now().toString().substring(0,8));
+                            for (String s : User.getGroupMessage(myID, groupID)) {
+                                System.out.println(s);
+                            }
+                        }
+                        if (z == 2) {
+                            System.out.println("enter ID of message that you want to edit");
+                            int messageID = Integer.parseInt(scanner.nextLine());
+                            if (User.canEditMessageInGroup(myID,groupID,messageID)) {
+                                System.out.println("enter your edited message");
+                                User.editMessageInGroup(messageID,scanner.nextLine());
+                                for (String s : User.getGroupMessage(myID, groupID)) {
+                                    System.out.println(s);
+                                }
+                            }
+                            else System.out.println("you can't edit this message");
+                        }
+                        if (z == 3) {
+                            System.out.println("enter ID of message that you want to edit");
+                            int messageID = Integer.parseInt(scanner.nextLine());
+                            if (User.canDeleteMessageInGroup(myID,groupID,messageID)) {
+                                User.deleteMessageInGroup(messageID);
+                                for (String s : User.getGroupMessage(myID, groupID)) {
+                                    System.out.println(s);
+                                }
+                            }
+                            else System.out.println("you can't delete this message");
+                        }
+                        if (z == 4 && !myBanCondition) {
+                            System.out.println("enter ID of message that you want to reply");
+                            int messageID = scanner.nextInt();
+                            scanner.nextLine();
+                            if (User.canReplyForwardInGroup(groupID,messageID)) {
+                                System.out.println("enter your reply");
+                                User.replyMessageInGroup(groupID,myID,scanner.nextLine(),messageID,java.time.LocalTime.now().toString().substring(0,8));
+                                for (String s : User.getGroupMessage(myID, groupID)) {
+                                    System.out.println(s);
+                                }
+                            }
+                            else System.out.println("you can't reply this message");
+                        }
+                        if (z == 5) {
+                            System.out.println("enter ID of message that you want to Forward");
+                            int messageID = scanner.nextInt();
+                            scanner.nextLine();
+                            if (User.canReplyForwardInGroup(groupID,messageID)) {
+                                System.out.println("enter name of user or group that you want to forward this message");
+                                String userNameToForward = scanner.nextLine();
+                                int origin = User.getForwardedIDFromGroupMessage(messageID);
+                                if (origin == 0) origin = User.getSenderIDFromGroupMessage(messageID);
+                                boolean sentToUser = true;
+                                int IDToForward = User.getIDByUserName(userNameToForward);
+                                if (IDToForward == -1) {
+                                    if (myGroupName.contains(userNameToForward)) {
+                                        IDToForward = myGroupID.get(myGroupName.indexOf(userNameToForward));
+                                        sentToUser = false;
+                                    }
+                                    else {
+                                        System.out.println("User or Group Not Found"); continue;
+                                    }
+                                }
+                                if (sentToUser) {
+                                    int blockForwardCondition = User.checkBlock(myID,IDToForward);
+                                    if (blockForwardCondition == -1) {
+                                        User.forwardMessage(myID, IDToForward, User.getContentDirectMessageByID(messageID), origin, java.time.LocalTime.now().toString().substring(0, 8));
+                                        System.out.println("FORWARDED!");
+                                    }
+                                    else
+                                        System.out.println("you can't forward message to this user");
+                                }
+                                else {
+                                    if (!myBanCondition) {
+                                        User.forwardMessageInGroup(IDToForward, myID, User.getGroupContentByID(messageID), origin, java.time.LocalTime.now().toString().substring(0, 8));
+                                        System.out.println("FORWARDED!");
+                                    }
+                                    else
+                                        System.out.println("you can't forward message to this group");
+                                }
+                            }
+                            else
+                                System.out.println("you can't forward this message");
+                        }
+                        if (z == 6) {
+                            System.out.println("enter your message that you want to search");
+                            ArrayList<String> searchResult = User.searchInGroupMessage(groupID,myID,scanner.nextLine());
+                            if (searchResult.isEmpty()) System.out.println("No results!");
+                            else {
+                                for (String s : searchResult) {
+                                    System.out.println(s);
+                                }
+                                int search = scanner.nextInt();
+                                scanner.nextLine();
+                                boolean valid = false;
+                                for (String s : searchResult) {
+                                    if (s.contains("ID = " + search)) {
+                                        int siad = User.getSenderIDFromGroupMessage(search);
+                                        String siadName = User.getUserNameByID(siad);
+                                        if (siad == myID) siadName = "YOU";
+                                        System.out.println(siadName + " : " + User.getGroupContentByID(search));
+                                        valid = true;
+                                    }
+                                }
+                                if (!valid) System.out.println("Invalid ID");
+                            }
+                        }
+                        if (z == 7) {
+                            for (Integer integer : User.getGroupMemberID(groupID)) {
+                                System.out.println(User.getUserNameByID(integer));
+                            }
+                        }
+                        if (z == 8) {
+                            System.out.println("enter yes if sure to leave this group or enter no to cancel");
+                            if (scanner.nextLine().equals("yes"))
+                                User.removeMemberFromGroup(groupID,myID);
+                        }
+                        if (z == 9 && isAdmin) {
+                            System.out.println("enter your username that you want to add");
+                            int userID = User.getIDByUserName(scanner.nextLine());
+                            if (userID == -1)
+                                System.out.println("User Not Found");
+                            else
+                                User.addMemberToGroup(groupID,userID);
+                        }
+                        if (z == 10 && isAdmin) {
+                            System.out.println("members of group : ");
+                            for (Integer integer : User.getGroupMemberID(groupID)) {
+                                if (integer == myID) continue;
+                                System.out.println(User.getUserNameByID(integer));
+                            }
+                            System.out.println("enter member that you want to remove");
+                            int userIDToRemove = User.getIDByUserName(scanner.nextLine());
+                            if (User.isMemberOfGroup(userIDToRemove,groupID))
+                                User.removeMemberFromGroup(groupID,userIDToRemove);
+                            else
+                                System.out.println("invalid user");
+                        }
+                        if (z == 11 && isAdmin) {
+                            System.out.println("baned user in group : ");
+                            for (Integer integer : User.getBanMemberID(groupID)) {
+                                System.out.println(User.getUserNameByID(integer));
+                            }
+                        }
+                        if (z == 12 && isAdmin) {
+                            System.out.println("members of group : ");
+                            for (Integer integer : User.getGroupMemberID(groupID)) {
+                                if (integer == myID) continue;
+                                System.out.println(User.getUserNameByID(integer));
+                            }
+                            System.out.println("enter member that you want to ban");
+                            int userIDToBan = User.getIDByUserName(scanner.nextLine());
+                            if (User.isMemberOfGroup(userIDToBan,groupID))
+                                User.banMember(groupID,userIDToBan);
+                            else
+                                System.out.println("invalid user");
+                        }
+                        if (z == 13 && isAdmin) {
+                            System.out.println("baned user in group : ");
+                            for (Integer integer : User.getBanMemberID(groupID)) {
+                                System.out.println(User.getUserNameByID(integer));
+                            }
+                            System.out.println("enter member that you want to unban");
+                            int unbanUserID = User.getIDByUserName(scanner.nextLine());
+                            if (User.isMemberOfGroup(unbanUserID,groupID))
+                                if (User.isBanInGroup(unbanUserID,groupID))
+                                    User.unbanMemberFromGroup(groupID,unbanUserID);
+                                else
+                                    System.out.println("invalid user");
+                            else
+                                System.out.println("invalid user");
+                        }
+                        if (z == 8 && !isAdmin) break;
+                        if (z == 14 && isAdmin) break;
+                    }
+                 }
+            }
+
             if (x==7)
             {
                 ArrayList<String> followersUserName=User.getFollowersUserNameByID(myID);

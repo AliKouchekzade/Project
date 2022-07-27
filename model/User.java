@@ -1,4 +1,5 @@
 package model;
+
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.SQLSyntaxErrorException;
@@ -491,5 +492,396 @@ public class User
             UserID = resultSet.getInt("UserID");
         }
         return UserID;
+    }
+
+    public static String getContentDirectMessageByID (int ID) throws SQLException {
+        ResultSet resultSet = statement.executeQuery("SELECT Content FROM directmessage WHERE ID = '" + ID + "';");
+        if (!resultSet.next()) return "Message Deleted";
+        return resultSet.getString("Content");
+    }
+
+    public static ArrayList<String> getDirectMessageBefore (int myID) throws SQLException {
+        ArrayList<Integer> chatBeforeID = new ArrayList<>();
+        String sql = "SELECT SenderID FROM directmessage WHERE ReceiverID = " + myID + ";";
+        ResultSet resultSet = statement.executeQuery(sql);
+        while (resultSet.next()) {
+            if (!chatBeforeID.contains(resultSet.getInt("SenderID")))
+                 chatBeforeID.add(resultSet.getInt("SenderID"));
+        }
+        sql = "SELECT ReceiverID FROM directmessage WHERE SenderID = " + myID + ";";
+        resultSet = statement.executeQuery(sql);
+        while (resultSet.next()) {
+            if (!chatBeforeID.contains(resultSet.getInt("ReceiverID"))) {
+                chatBeforeID.add(resultSet.getInt("ReceiverID"));
+            }
+        }
+
+        ArrayList<String> chatBefore = new ArrayList<>();
+
+        for (Integer integer : chatBeforeID) {
+            String between = Math.min(myID,integer) + "&" + Math.max(myID,integer);
+            resultSet = statement.executeQuery("SELECT Content,SenderID FROM directmessage WHERE betweenIDs = '" + between + "' ORDER BY ID DESC LIMIT 1;");
+            resultSet.next();
+            String content = "@" + resultSet.getInt("SenderID") + "@ : " + resultSet.getString("Content");
+            chatBefore.add(User.getUserNameByID(integer) + " (" + content.substring(0,Math.min(20,content.length())) + "...)" );
+        }
+
+        for (String s : chatBefore) {
+            int siad = Integer.parseInt(s.substring(s.indexOf("@")+1,s.lastIndexOf("@")));
+            String siadName = User.getUserNameByID(siad);
+            if (siad == myID) siadName = "YOU";
+            chatBefore.set(chatBefore.indexOf(s),s.replace("@"+siad+"@",siadName));
+        }
+        return chatBefore;
+    }
+
+    public static boolean insertNewDirectMessage (int senderID,int receiverID,String content,String time)  {
+        String between = Math.min(senderID,receiverID) + "&" + Math.max(senderID,receiverID);
+        String sql = "INSERT INTO directmessage (betweenIDs, SenderID, ReceiverID, Content,RepliedTo,ForwardFrom,Time) VALUES ('" + between + "','" + senderID + "','" + receiverID + "','" + content + "','0','0','" + time + "');";
+        try {
+            statement.execute(sql);
+            return true;
+        }
+        catch (SQLException ignored) {
+            return false;
+        }
+    }
+
+    public static ArrayList<String> getChatContent (int myID,int personID) throws SQLException {
+        ArrayList<String> chat = new ArrayList<>();
+        String between = Math.min(myID,personID) + "&" + Math.max(myID,personID);
+        String personName = User.getUserNameByID(personID);
+        String sql = "SELECT ID,SenderID,Content,RepliedTo,ForwardFrom,Time FROM directmessage WHERE betweenIDs = '" + between + "';";
+        ResultSet resultSet = statement.executeQuery(sql);
+        while (resultSet.next()) {
+            StringBuilder stringBuilder = new StringBuilder();
+            if (resultSet.getInt("SenderID") == myID) stringBuilder.append("YOU  : ");
+            else stringBuilder.append(personName).append(" : ");
+            stringBuilder.append(resultSet.getString("Content"));
+            int RepliedTo = resultSet.getInt("RepliedTo");
+            int ForwardFrom = resultSet.getInt("ForwardFrom");
+            if (RepliedTo != 0)
+                stringBuilder.append(" Replied To \"").append(RepliedTo).append("\"");
+            if (ForwardFrom != 0)
+                stringBuilder.append(" Forwarded From '").append(ForwardFrom).append("'");
+            stringBuilder.append(" ( ID = ").append(resultSet.getInt("ID")).append(" ) - ").append(resultSet.getString("Time"));
+            chat.add(stringBuilder.toString());
+        }
+        for (String s : chat) {
+            if (s.contains("Replied To")) {
+                int replyTo = Integer.parseInt(s.substring(s.indexOf("\"")+1,s.lastIndexOf("\"")));
+                String repliedContent = User.getContentDirectMessageByID(replyTo);
+                chat.set(chat.indexOf(s),s.replace(Integer.toString(replyTo),repliedContent.substring(0,Math.min(repliedContent.length(),15)) + "..."));
+            }
+            if (s.contains("Forwarded From")) {
+                int forwarded = Integer.parseInt(s.substring(s.indexOf("'")+1,s.lastIndexOf("'")));
+                String userForwardedFrom = User.getUserNameByID(forwarded);
+                chat.set(chat.indexOf(s),s.replace("'"+forwarded+"'",userForwardedFrom));
+            }
+        }
+        return chat;
+    }
+
+    public static boolean hasAccessToEditMessage (int userID,int messageID) throws SQLException {
+        String sql = "SELECT SenderID,ForwardFrom FROM directmessage WHERE ID = '" + messageID + "';";
+        ResultSet resultSet = statement.executeQuery(sql);
+        if (!resultSet.next()) return false;
+        return (resultSet.getInt("SenderID") == userID && resultSet.getInt("ForwardFrom") == 0);
+    }
+
+    public static boolean hasAccessToDeleteMessage (int userID,int messageID) throws SQLException {
+        String sql = "SELECT SenderID FROM directmessage WHERE ID = '" + messageID + "';";
+        ResultSet resultSet = statement.executeQuery(sql);
+        if (!resultSet.next()) return false;
+        return resultSet.getInt("SenderID") == userID;
+    }
+
+    public static void editMessage (int messageID,String editedMessage) throws SQLException {
+            statement.execute("UPDATE directmessage SET Content = '" + editedMessage + "' WHERE ID = '" + messageID + "';");
+    }
+
+    public static void deleteMessage (int messageID) throws SQLException {
+        statement.execute("DELETE FROM directmessage WHERE ID = '" + messageID + "';");
+    }
+
+    public static boolean canReplyForward (int senderID,int receiverID,int messageID) throws SQLException {
+        String between = Math.min(senderID,receiverID) + "&" + Math.max(senderID,receiverID);
+        String sql = "SELECT betweenIDs FROM directmessage WHERE ID = '" + messageID + "';";
+        ResultSet resultSet = statement.executeQuery(sql);
+        if (!resultSet.next()) return false;
+        return resultSet.getString("betweenIDs").equals(between);
+    }
+
+    public static void replyMessage (int senderID,int receiverID,String content,int repliedTo,String time) throws SQLException {
+        String between = Math.min(senderID,receiverID) + "&" + Math.max(senderID,receiverID);
+        String sql = "INSERT INTO directmessage (betweenIDs, SenderID, ReceiverID, Content,RepliedTo,ForwardFrom,Time) VALUES ('" + between + "','" + senderID + "','" + receiverID + "','" + content + "','" + repliedTo +"','0','" + time +"');";
+        statement.execute(sql);
+    }
+
+    public static void forwardMessage (int senderID,int receiverID,String content,int ForwardFrom,String time) throws SQLException {
+        String between = Math.min(senderID,receiverID) + "&" + Math.max(senderID,receiverID);
+        String sql = "INSERT INTO directmessage (betweenIDs, SenderID, ReceiverID, Content,ForwardFrom,RepliedTo,Time) VALUES ('" + between + "','" + senderID + "','" + receiverID + "','" + content + "','" + ForwardFrom +"','0','" + time + "');";
+        statement.execute(sql);
+    }
+
+    public static int getSenderIDFromDirectMessageID (int messageID) throws SQLException {
+        String sql = "SELECT SenderID FROM directmessage WHERE ID = '" + messageID + "';";
+        ResultSet resultSet = statement.executeQuery(sql);
+        resultSet.next();
+        return resultSet.getInt("SenderID");
+    }
+
+    public static int getForwardedIDByDirectMessageID (int messageID) throws SQLException {
+        String sql = "SELECT ForwardFrom FROM directmessage WHERE ID = '" + messageID + "';";
+        ResultSet resultSet = statement.executeQuery(sql);
+        resultSet.next();
+        return resultSet.getInt("ForwardFrom");
+    }
+
+    public static ArrayList<String> searchInDirectMessage (int person1ID,int person2ID,String toBeSearch) throws SQLException {
+        ArrayList<String> chat = new ArrayList<>();
+        String between = Math.min(person1ID,person2ID) + "&" + Math.max(person1ID,person2ID);
+        String sql = "SELECT Content,ID,Time,SenderID FROM directmessage WHERE betweenIDs = '" + between + "' AND Content LIKE '%" + toBeSearch + "%';";
+        ResultSet resultSet = statement.executeQuery(sql);
+        while (resultSet.next()) {
+            String content = "@" + resultSet.getInt("SenderID") + "@ : " + resultSet.getString("Content");
+            chat.add(content.substring(0, Math.min(content.length(),20)) + "... ( ID = " + resultSet.getInt("ID") + " ) - " + resultSet.getString("Time"));
+        }
+        for (String s : chat) {
+            int siad = Integer.parseInt(s.substring(s.indexOf("@")+1,s.lastIndexOf("@")));
+            String siadName = User.getUserNameByID(siad);
+            if (siad == person1ID) siadName = "YOU";
+            chat.set(chat.indexOf(s),s.replace("@"+siad+"@",siadName));
+        }
+        return chat;
+    }
+
+    public static short checkBlock (int myID,int personID) throws SQLException {
+        String between = Math.min(myID,personID) + "&" + Math.max(myID,personID);
+        String sql = "SELECT blocker FROM blockes WHERE blockChat = '" + between + "';";
+        ResultSet resultSet = statement.executeQuery(sql);
+        if (!resultSet.next()) return -1; //-1 means no one blocks another
+        if (resultSet.getInt("blocker") == myID) return 1; //1 mean I block that user
+        if (resultSet.next()) return 1;
+        else return 0; //0 means that user blocks me
+    }
+
+    public static void blockUser (int myID,int personID) throws SQLException {
+        String between = Math.min(myID,personID) + "&" + Math.max(myID,personID);
+        statement.execute("INSERT INTO blockes (blockChat, blocker) VALUES ('" + between + "','" + myID +  "');");
+    }
+
+    public static void unBlockUser (int myID,int personID) throws SQLException {
+        String between = Math.min(myID,personID) + "&" + Math.max(myID,personID);
+        statement.execute("DELETE FROM blockes WHERE blockChat = '" + between + "' AND blocker = '" + myID + "';");
+    }
+
+    public static ArrayList<Integer> getAllMyGroupName (int myID) throws SQLException {
+        String x = "&" + myID + "&";
+        String sql = "SELECT ID FROM `groups` WHERE GroupMembers LIKE '%" + x + "%';";
+        ResultSet resultSet = statement.executeQuery(sql);
+        ArrayList<Integer> groupName = new ArrayList<>();
+        while (resultSet.next()) {
+            groupName.add(resultSet.getInt("ID"));
+        }
+        return groupName;
+    }
+
+    public static String getGroupNameByID (int groupID) throws SQLException {
+        String sql = "SELECT GroupName FROM `groups`WHERE ID = '" + groupID + "';";
+        ResultSet resultSet = statement.executeQuery(sql);
+        if (!resultSet.next()) return "NOT FOUND";
+        return resultSet.getString("GroupName");
+    }
+
+    public static void createNewGroup (int adminID,String groupName) throws SQLException {
+        String x = "&" + adminID + "&";
+        statement.execute("INSERT INTO `groups` (GroupName, GroupAdmin, GroupMembers, BanMembers) VALUES ('" + groupName + "','" + adminID + "','" + x + "','&');" );
+    }
+
+    public static boolean isAdmin (int myID,int groupID) throws SQLException {
+        ResultSet resultSet = statement.executeQuery("SELECT ID FROM `groups` WHERE ID = '" + groupID + "' AND GroupAdmin = '" + myID + "';");
+        return resultSet.next();
+    }
+
+    public static String getGroupContentByID (int groupMessageID) throws SQLException {
+        ResultSet resultSet = statement.executeQuery("SELECT Content FROM groupmessage WHERE ID = '" + groupMessageID + "';");
+        if (!resultSet.next()) return "Message Deleted";
+        return resultSet.getString("Content");
+    }
+
+    public static ArrayList<String> getGroupMessage (int myID,int groupID) throws SQLException {
+        ArrayList<String> groupMessage = new ArrayList<>();
+        ResultSet resultSet = statement.executeQuery("SELECT ID,SenderID,Content,RepliedTo,ForwardFrom,Time FROM groupmessage WHERE GroupID = '" + groupID + "';");
+        while (resultSet.next()) {
+            StringBuilder stringBuilder = new StringBuilder();
+            if (resultSet.getInt("SenderID") == myID) stringBuilder.append("YOU  : ");
+            else stringBuilder.append("@").append(resultSet.getInt("SenderID")).append("@ : ");
+            stringBuilder.append(resultSet.getString("Content"));
+            int RepliedTo = resultSet.getInt("RepliedTo");
+            int ForwardFrom = resultSet.getInt("ForwardFrom");
+            if (RepliedTo != 0)
+                stringBuilder.append(" Replied To \"").append(RepliedTo).append("\"");
+            if (ForwardFrom != 0)
+                stringBuilder.append(" Forwarded From '").append(ForwardFrom).append("'");
+            stringBuilder.append(" ( ID = ").append(resultSet.getInt("ID")).append(" ) - ").append(resultSet.getString("Time"));
+            groupMessage.add(stringBuilder.toString());
+        }
+        for (String s : groupMessage) {
+            int index = groupMessage.indexOf(s);
+            if (s.contains("Replied To")) {
+                int replyTo = Integer.parseInt(s.substring(s.indexOf("\"")+1,s.lastIndexOf("\"")));
+                String repliedContent = User.getGroupContentByID(replyTo);
+                groupMessage.set(index,s.replace("\"" + replyTo,"\"" + repliedContent.substring(0,Math.min(repliedContent.length(),15)) + "..."));
+            }
+            if (s.contains("Forwarded From")) {
+                int forwarded = Integer.parseInt(s.substring(s.indexOf("'")+1,s.lastIndexOf("'")));
+                String userForwardedFrom = User.getUserNameByID(forwarded);
+                groupMessage.set(index,s.replace("'"+forwarded+"'",userForwardedFrom));
+            }
+            if (s.contains("@")) {
+                int said =  Integer.parseInt(s.substring(s.indexOf("@")+1,s.lastIndexOf("@")));
+                String saidName = User.getUserNameByID(said);
+                groupMessage.set(index,groupMessage.get(index).replace("@"+said+"@",saidName));
+            }
+        }
+        return groupMessage;
+    }
+
+    public static void addMemberToGroup (int groupID,int memberID) throws SQLException {
+       ResultSet resultSet = statement.executeQuery("SELECT GroupMembers FROM `groups` WHERE ID = '" + groupID + "';");
+       resultSet.next();
+       String members = resultSet.getString("GroupMembers") + memberID + "&";
+       statement.execute("UPDATE `groups` SET GroupMembers = '" + members + "' WHERE ID = '" + groupID + "';");
+    }
+
+    public static void removeMemberFromGroup (int groupID,int memberID) throws SQLException {
+        ResultSet resultSet = statement.executeQuery("SELECT GroupMembers FROM `groups` WHERE ID = '" + groupID + "';");
+        resultSet.next();
+        String members = resultSet.getString("GroupMembers").replace("&"+memberID+"&","&");
+        statement.execute("UPDATE `groups` SET GroupMembers = '" + members + "' WHERE ID = '" + groupID + "';");
+    }
+
+    public static ArrayList<Integer> getGroupMemberID (int groupID) throws SQLException {
+        ResultSet resultSet = statement.executeQuery("SELECT GroupMembers FROM `groups` WHERE ID = '" + groupID + "';");
+        resultSet.next();
+        String[] members = resultSet.getString("GroupMembers").split("&");
+        ArrayList<Integer> arrayList = new ArrayList<>();
+        for (int i = 1;i<members.length;i++) {
+            arrayList.add(Integer.parseInt(members[i]));
+        }
+        return arrayList;
+    }
+
+    public static boolean isMemberOfGroup (int userID,int groupID) throws SQLException {
+        ResultSet resultSet = statement.executeQuery("SELECT ID FROM `groups` WHERE ID = '" + groupID + "' AND GroupMembers LIKE '%&" + userID + "&%';");
+        return resultSet.next();
+    }
+
+    public static void insertNewMessageIntoGroup (int groupID,int senderID,String content,String time) throws SQLException {
+        statement.execute("INSERT INTO groupmessage (GroupID, SenderID, Content, RepliedTo, ForwardFrom, Time) VALUES ('" + groupID + "','" + senderID + "','" + content +"','0','0','" + time +"');");
+    }
+
+    public static boolean canEditMessageInGroup (int myID,int groupID,int messageID) throws SQLException {
+        ResultSet resultSet = statement.executeQuery("SELECT SenderID,ForwardFrom FROM groupmessage WHERE ID = '" + messageID + "' AND GroupID = '" + groupID + "';");
+        if (!resultSet.next()) return false;
+        return resultSet.getInt("SenderID") == myID && resultSet.getInt("ForwardFrom") == 0;
+    }
+
+    public static void editMessageInGroup (int messageID,String newContent) throws SQLException {
+        statement.execute("UPDATE groupmessage SET Content = '" + newContent + "' WHERE ID = '" + messageID + "';");
+    }
+
+    public static boolean canDeleteMessageInGroup (int myID,int groupID,int messageID) throws SQLException {
+        ResultSet resultSet = statement.executeQuery("SELECT SenderID FROM groupmessage WHERE ID = '" + messageID + "' AND GroupID = '" + groupID + "';");
+        if (!resultSet.next()) return false;
+        return resultSet.getInt("SenderID") == myID;
+    }
+
+    public static void deleteMessageInGroup (int messageID) throws SQLException {
+        statement.execute("DELETE FROM groupmessage WHERE ID = '" + messageID + "';");
+    }
+
+    public static boolean canReplyForwardInGroup (int groupID,int MessageID) throws SQLException {
+        ResultSet resultSet = statement.executeQuery("SELECT ID FROM groupmessage WHERE ID = '" + MessageID + "' AND GroupID = '" + groupID + "';");
+        return resultSet.next();
+    }
+
+    public static void replyMessageInGroup (int groupID,int senderID,String content,int repliedTo,String time) throws SQLException {
+        statement.execute("INSERT INTO groupmessage (GroupID, SenderID, Content, RepliedTo, ForwardFrom, Time) VALUES ('" + groupID + "','" + senderID + "','" + content + "','" + repliedTo + "','0','" + time +"');");
+    }
+
+    public static void forwardMessageInGroup (int groupID,int senderID,String content,int forwardFrom,String time) throws SQLException {
+        statement.execute("INSERT INTO groupmessage (GroupID, SenderID, Content, RepliedTo, ForwardFrom, Time) VALUES ('" + groupID + "','" + senderID + "','" + content + "','0','" + forwardFrom + "','" + time +"');");
+    }
+
+    public static int getForwardedIDFromGroupMessage (int messageID) throws SQLException {
+        ResultSet resultSet = statement.executeQuery("SELECT ForwardFrom FROM groupmessage WHERE ID = '" + messageID + "';");
+        resultSet.next();
+        return resultSet.getInt("ForwardFrom");
+    }
+
+    public static int getSenderIDFromGroupMessage (int messageID) throws SQLException {
+        ResultSet resultSet = statement.executeQuery("SELECT SenderID FROM groupmessage WHERE ID = '" + messageID + "';");
+        resultSet.next();
+        return resultSet.getInt("SenderID");
+    }
+
+    public static ArrayList<String> searchInGroupMessage (int groupID,int myID,String toBeSearch) throws SQLException {
+        ArrayList<String> chat = new ArrayList<>();
+        String sql = "SELECT Content,ID,Time,SenderID FROM groupmessage WHERE GroupID = '" + groupID + "' AND Content LIKE '%" + toBeSearch + "%';";
+        ResultSet resultSet = statement.executeQuery(sql);
+        while (resultSet.next()) {
+            String content = "@" + resultSet.getInt("SenderID") + "@ : " + resultSet.getString("Content");
+            chat.add(content.substring(0, Math.min(content.length(),20)) + "... ( ID = " + resultSet.getInt("ID") + " ) - " + resultSet.getString("Time"));
+        }
+        for (String s : chat) {
+            int siad = Integer.parseInt(s.substring(s.indexOf("@")+1,s.lastIndexOf("@")));
+            String siadName = User.getUserNameByID(siad);
+            if (siad == myID) siadName = "YOU";
+            chat.set(chat.indexOf(s),s.replace("@"+siad+"@",siadName));
+        }
+        return chat;
+    }
+
+    public static void banMember (int groupID,int memberID) throws SQLException {
+        ResultSet resultSet = statement.executeQuery("SELECT BanMembers FROM `groups` WHERE ID = '" + groupID + "';");
+        resultSet.next();
+        String members = resultSet.getString("BanMembers") + memberID + "&";
+        statement.execute("UPDATE `groups` SET BanMembers = '" + members + "' WHERE ID = '" + groupID + "';");
+    }
+
+    public static boolean isBanInGroup (int userID,int groupID) throws SQLException {
+        ResultSet resultSet = statement.executeQuery("SELECT ID FROM `groups` WHERE ID = '" + groupID + "' AND BanMembers LIKE '%&" + userID + "&%';");
+        return resultSet.next();
+    }
+
+    public static ArrayList<Integer> getBanMemberID (int groupID) throws SQLException {
+        ResultSet resultSet = statement.executeQuery("SELECT BanMembers FROM `groups` WHERE ID = '" + groupID + "';");
+        resultSet.next();
+        String[] members = resultSet.getString("BanMembers").split("&");
+        ArrayList<Integer> arrayList = new ArrayList<>();
+        for (int i = 1;i<members.length;i++) {
+            arrayList.add(Integer.parseInt(members[i]));
+        }
+        return arrayList;
+    }
+
+    public static void unbanMemberFromGroup (int groupID,int memberID) throws SQLException {
+        ResultSet resultSet = statement.executeQuery("SELECT BanMembers FROM `groups` WHERE ID = '" + groupID + "';");
+        resultSet.next();
+        String members = resultSet.getString("BanMembers").replace("&"+memberID+"&","&");
+        statement.execute("UPDATE `groups` SET BanMembers = '" + members + "' WHERE ID = '" + groupID + "';");
+    }
+
+    public static String getLastMessageInChat (int myID,int groupID) throws SQLException {
+        ResultSet resultSet = statement.executeQuery("SELECT Content,SenderID FROM groupmessage WHERE GroupID = '" + groupID + "' ORDER BY ID DESC LIMIT 1;");
+        if (!resultSet.next()) return "";
+        int said = resultSet.getInt("SenderID");
+        String content = resultSet.getString("Content");
+        String siadName;
+        if (said == myID) siadName = "YOU";
+        else siadName = User.getUserNameByID(said);
+        return siadName + " : " + content.substring(0,Math.min(20,content.length())) + "...";
     }
 }
