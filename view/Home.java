@@ -745,7 +745,7 @@ public class Home
                                         System.out.println("you can't forward message to this user");
                                 }
                                 else {
-                                    if (!myBanCondition) {
+                                    if (!User.isBanInGroup(myID,IDToForward)) {
                                         User.forwardMessageInGroup(IDToForward, myID, User.getGroupContentByID(messageID), origin, java.time.LocalTime.now().toString().substring(0, 8));
                                         System.out.println("FORWARDED!");
                                     }
@@ -844,7 +844,7 @@ public class Home
                             else
                                 System.out.println("invalid user");
                         }
-                        if (z == 8 && !isAdmin) break;
+                        if (z == 9 && !isAdmin) break;
                         if (z == 14 && isAdmin) break;
                     }
                  }
