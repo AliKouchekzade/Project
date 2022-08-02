@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onMouseEntered="#setHomePage" prefHeight="847.0" prefWidth="973.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.graphicalproject.HelloController">
+   <children>
+      <Button layoutX="56.0" layoutY="128.0" mnemonicParsing="false" prefHeight="39.0" prefWidth="129.0" text="Home page" />
+      <Button fx:id="myPageInHomePage" layoutX="56.0" layoutY="190.0" mnemonicParsing="false" onAction="#fromHomePageToMyPage" prefHeight="39.0" prefWidth="129.0" text="My page" />
+      <Button layoutX="56.0" layoutY="309.0" mnemonicParsing="false" onAction="#fromHomePageToCreateNewPost" prefHeight="39.0" prefWidth="129.0" text="Create new post" />
+      <Button layoutX="56.0" layoutY="250.0" mnemonicParsing="false" prefHeight="39.0" prefWidth="129.0" text="My chats" />
+      <TextField fx:id="searchedUserInHomePage" layoutX="203.0" layoutY="14.0" prefHeight="48.0" prefWidth="222.0" promptText="search...">
+         <font>
+            <Font size="22.0" />
+         </font>
+      </TextField>
+      <Button layoutX="56.0" layoutY="476.0" mnemonicParsing="false" onAction="#logoutFromHomePage" prefHeight="39.0" prefWidth="129.0" text="Logout" />
+      <ImageView fx:id="themeInHomePage" fitHeight="772.0" fitWidth="768.0" layoutX="203.0" layoutY="75.0" pickOnBounds="true">
+         <image>
+            <Image url="@../../../light theme.jpg" />
+         </image></ImageView>
+      <Button layoutX="463.0" layoutY="14.0" mnemonicParsing="false" onAction="#searchUserInHomePage" prefHeight="48.0" prefWidth="102.0" text="Search">
+         <font>
+            <Font size="21.0" />
+         </font></Button>
+      <Label fx:id="searchUserMessageInHomePage" layoutX="602.0" layoutY="47.0" prefHeight="48.0" prefWidth="171.0">
+         <font>
+            <Font size="21.0" />
+         </font>
+      </Label>
+      <Button layoutX="56.0" layoutY="424.0" mnemonicParsing="false" onAction="#fromHomePageToSettingsPage" prefHeight="39.0" prefWidth="129.0" text="Settings" />
+      <ImageView fx:id="postInHomePage" fitHeight="305.0" fitWidth="382.0" layoutX="371.0" layoutY="147.0" pickOnBounds="true" />
+      <Button layoutX="372.0" layoutY="521.0" mnemonicParsing="false" onAction="#likePostInHomePage" prefHeight="48.0" prefWidth="129.0">
+         <font>
+            <Font size="21.0" />
+         </font>
+      </Button>
+      <ImageView fx:id="likePostImageInHomePage" fitHeight="48.0" fitWidth="52.0" layoutX="371.0" layoutY="521.0" pickOnBounds="true" />
+      <Label fx:id="captionInHomePage" layoutX="366.0" layoutY="461.0" prefHeight="48.0" prefWidth="399.0">
+         <font>
+            <Font size="22.0" />
+         </font>
+      </Label>
+      <Button layoutX="730.0" layoutY="743.0" mnemonicParsing="false" onAction="#commentInHomePage" prefHeight="54.0" prefWidth="109.0" text="Comment">
+         <font>
+            <Font size="19.0" />
+         </font>
+      </Button>
+      <ImageView fx:id="profileOfPostInHomePage" fitHeight="54.0" fitWidth="63.0" layoutX="373.0" layoutY="82.0" pickOnBounds="true" />
+      <Label fx:id="userNameOfPostInHomePage" layoutX="437.0" layoutY="82.0" prefHeight="54.0" prefWidth="186.0">
+         <font>
+            <Font size="19.0" />
+         </font>
+      </Label>
+      <Button layoutX="242.0" layoutY="279.0" mnemonicParsing="false" onAction="#previousPostInHomePage" prefHeight="42.0" prefWidth="102.0" text="Previous">
+         <font>
+            <Font size="19.0" />
+         </font>
+      </Button>
+      <Button layoutX="784.0" layoutY="279.0" mnemonicParsing="false" onAction="#nextPostInHomePage" prefHeight="39.0" prefWidth="102.0" text="Next">
+         <font>
+            <Font size="19.0" />
+         </font>
+      </Button>
+      <TextField fx:id="commentOrReplyInHomePage" layoutX="315.0" layoutY="743.0" prefHeight="54.0" prefWidth="399.0" promptText="Comment or Reply">
+         <font>
+            <Font size="22.0" />
+         </font>
+      </TextField>
+      <Button layoutX="857.0" layoutY="743.0" mnemonicParsing="false" onAction="#replyInHomePage" prefHeight="54.0" prefWidth="102.0" text="Reply">
+         <font>
+            <Font size="19.0" />
+         </font>
+      </Button>
+      <ImageView fx:id="profileCommentInHomePage" fitHeight="54.0" fitWidth="63.0" layoutX="373.0" layoutY="573.0" pickOnBounds="true" preserveRatio="true" />
+      <Label fx:id="commentInHomePage" layoutX="436.0" layoutY="576.0" prefHeight="48.0" prefWidth="390.0">
+         <font>
+            <Font size="21.0" />
+         </font>
+      </Label>
+      <Button layoutX="372.0" layoutY="630.0" mnemonicParsing="false" onAction="#likeCommentInHomePage" prefHeight="48.0" prefWidth="129.0" />
+      <Button layoutX="212.0" layoutY="582.0" mnemonicParsing="false" onAction="#previousCommentInHomePage" prefHeight="42.0" prefWidth="102.0" text="Previous">
+         <font>
+            <Font size="19.0" />
+         </font>
+      </Button>
+      <Button layoutX="857.0" layoutY="582.0" mnemonicParsing="false" onAction="#nextCommentInHomePage" prefHeight="42.0" prefWidth="102.0" text="Next">
+         <font>
+            <Font size="19.0" />
+         </font></Button>
+      <ImageView fx:id="likeCommentInHomePage" fitHeight="48.0" fitWidth="52.0" layoutX="371.0" layoutY="630.0" pickOnBounds="true" />
+      <ImageView fx:id="profileReplyInHomePage" fitHeight="54.0" fitWidth="63.0" layoutX="373.0" layoutY="678.0" pickOnBounds="true" preserveRatio="true" />
+      <Label fx:id="replyInHomePage" layoutX="436.0" layoutY="681.0" prefHeight="48.0" prefWidth="390.0">
+         <font>
+            <Font size="20.0" />
+         </font>
+      </Label>
+      <Button layoutX="212.0" layoutY="690.0" mnemonicParsing="false" onAction="#previousReplyInHomePage" prefHeight="42.0" prefWidth="102.0" text="Previous">
+         <font>
+            <Font size="19.0" />
+         </font>
+      </Button>
+      <Button layoutX="857.0" layoutY="690.0" mnemonicParsing="false" onAction="#nextReplyInHomePage" prefHeight="42.0" prefWidth="102.0" text="Next">
+         <font>
+            <Font size="19.0" />
+         </font>
+      </Button>
+      <Button layoutX="56.0" layoutY="365.0" mnemonicParsing="false" onAction="#suggestedUsersPage" prefHeight="39.0" prefWidth="129.0" text="Suggested users" />
+   </children>
+</Pane>

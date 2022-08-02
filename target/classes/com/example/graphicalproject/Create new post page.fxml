@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.text.Font?>
+
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onMouseEntered="#setCreateNewPostPage" prefHeight="816.0" prefWidth="973.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.graphicalproject.HelloController">
+   <children>
+      <Button layoutX="56.0" layoutY="128.0" mnemonicParsing="false" onAction="#fromCreateNewPostPageToHomePage" prefHeight="39.0" prefWidth="129.0" text="Home page" />
+      <Button layoutX="56.0" layoutY="190.0" mnemonicParsing="false" onAction="#fromCreateNewPostToMyPage" prefHeight="39.0" prefWidth="129.0" text="My page" />
+      <Button layoutX="56.0" layoutY="309.0" mnemonicParsing="false" prefHeight="39.0" prefWidth="129.0" text="Create new post" />
+      <Button layoutX="56.0" layoutY="250.0" mnemonicParsing="false" prefHeight="39.0" prefWidth="129.0" text="My chats" />
+      <TextField fx:id="searchedUserInCreateNewPostPage" layoutX="204.0" layoutY="47.0" prefHeight="48.0" prefWidth="222.0" promptText="search...">
+         <font>
+            <Font size="22.0" />
+         </font>
+      </TextField>
+      <Button layoutX="56.0" layoutY="482.0" mnemonicParsing="false" onAction="#logoutFromCreateNewPostPage" prefHeight="39.0" prefWidth="129.0" text="Logout" />
+      <ImageView fx:id="themeInCreateNewPostPage" fitHeight="711.0" fitWidth="768.0" layoutX="204.0" layoutY="106.0" pickOnBounds="true">
+         <image>
+            <Image url="@../../../light theme.jpg" />
+         </image></ImageView>
+      <Button layoutX="462.0" layoutY="47.0" mnemonicParsing="false" onAction="#searchUserInCreateNewPostPage" prefHeight="48.0" prefWidth="102.0" text="Search">
+         <font>
+            <Font size="21.0" />
+         </font></Button>
+      <Label fx:id="searchUserMessageInCreateNewPostPage" layoutX="602.0" layoutY="47.0" prefHeight="48.0" prefWidth="171.0">
+         <font>
+            <Font size="21.0" />
+         </font>
+      </Label>
+      <Button layoutX="56.0" layoutY="423.0" mnemonicParsing="false" onAction="#fromCreateNewPostToSettingsPage" prefHeight="39.0" prefWidth="129.0" text="Settings" />
+      <ImageView fx:id="postImageInCreateNewPost" fitHeight="344.0" fitWidth="450.0" layoutX="369.0" layoutY="282.0" pickOnBounds="true" />
+      <Button layoutX="679.0" layoutY="167.0" mnemonicParsing="false" onAction="#setPostImageInCreateNewPost" prefHeight="48.0" prefWidth="129.0" text="Set image">
+         <font>
+            <Font size="19.0" />
+         </font></Button>
+      <TextField fx:id="postImageNameInCreateNewPost" layoutX="309.0" layoutY="167.0" prefHeight="48.0" prefWidth="285.0" promptText="Image">
+         <font>
+            <Font size="19.0" />
+         </font>
+      </TextField>
+      <TextField fx:id="captionInCreateNewPost" layoutX="310.0" layoutY="616.0" prefHeight="48.0" prefWidth="509.0" promptText="Caption">
+         <font>
+            <Font size="17.0" />
+         </font></TextField>
+      <Button layoutX="367.0" layoutY="678.0" mnemonicParsing="false" onAction="#postInCreateNewPost" prefHeight="48.0" prefWidth="119.0" text="Post">
+         <font>
+            <Font size="27.0" />
+         </font></Button>
+      <Label fx:id="messageInCreateNewPost" layoutX="564.0" layoutY="745.0" prefHeight="57.0" prefWidth="194.0">
+         <font>
+            <Font size="21.0" />
+         </font>
+      </Label>
+      <Button layoutX="56.0" layoutY="369.0" mnemonicParsing="false" onAction="#suggestedUsersPage" prefHeight="39.0" prefWidth="129.0" text="Suggested users" />
+   </children>
+</Pane>

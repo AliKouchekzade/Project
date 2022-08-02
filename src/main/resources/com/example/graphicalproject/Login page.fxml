@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.text.*?>
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="628.0" prefWidth="843.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.graphicalproject.HelloController">
+   <children>
+      <TextField fx:id="userNameInLoginPage" layoutX="422.0" layoutY="124.0" prefHeight="39.0" prefWidth="186.0">
+         <font>
+            <Font size="20.0" />
+         </font>
+      </TextField>
+      <PasswordField fx:id="passwordInLoginPage" layoutX="422.0" layoutY="198.0" prefHeight="39.0" prefWidth="186.0">
+         <font>
+            <Font size="20.0" />
+         </font>
+      </PasswordField>
+      <Label layoutX="212.0" layoutY="124.0" prefHeight="31.0" prefWidth="150.0" text="User Name :">
+         <font>
+            <Font size="27.0" />
+         </font>
+      </Label>
+      <Label layoutX="212.0" layoutY="198.0" prefHeight="39.0" prefWidth="150.0" text="Password :">
+         <font>
+            <Font size="27.0" />
+         </font>
+      </Label>
+      <Button layoutX="373.0" layoutY="269.0" mnemonicParsing="false" onAction="#login" prefHeight="57.0" prefWidth="129.0" text="Login">
+         <font>
+            <Font size="24.0" />
+         </font>
+      </Button>
+      <Label layoutX="28.0" layoutY="347.0" prefHeight="51.0" prefWidth="455.0" text="If you have forgot your password , click on :">
+         <font>
+            <Font size="23.0" />
+         </font>
+      </Label>
+      <Button layoutX="502.0" layoutY="348.0" mnemonicParsing="false" onAction="#passwordRecovery1" text="Forget">
+         <font>
+            <Font size="23.0" />
+         </font>
+      </Button>
+      <Label layoutX="28.0" layoutY="419.0" prefHeight="39.0" prefWidth="395.0" text="If you dont have an account , click on :">
+         <font>
+            <Font size="23.0" />
+         </font>
+      </Label>
+      <Button layoutX="447.0" layoutY="414.0" mnemonicParsing="false" onAction="#signup1" prefHeight="50.0" prefWidth="111.0" text="Sign up">
+         <font>
+            <Font size="23.0" />
+         </font>
+      </Button>
+      <Label fx:id="messageInLoginPage" layoutX="165.0" layoutY="525.0" prefHeight="57.0" prefWidth="374.0">
+         <font>
+            <Font size="25.0" />
+         </font>
+      </Label>
+   </children>
+</Pane>

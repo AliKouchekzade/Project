@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.text.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+
+
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onMouseEntered="#setSuggestedUsersPage" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.graphicalproject.HelloController">
+   <children>
+      <ImageView fx:id="suggestedUserProfile1" fitHeight="52.0" fitWidth="59.0" layoutX="58.0" layoutY="40.0" pickOnBounds="true" />
+      <Label fx:id="suggestedUserName1" layoutX="123.0" layoutY="40.0" prefHeight="52.0" prefWidth="145.0">
+         <font>
+            <Font size="19.0" />
+         </font>
+      </Label>
+      <ImageView fx:id="suggestedUserProfile2" fitHeight="52.0" fitWidth="59.0" layoutX="344.0" layoutY="40.0" pickOnBounds="true" />
+      <Label fx:id="suggestedUserName2" layoutX="416.0" layoutY="40.0" prefHeight="52.0" prefWidth="145.0">
+         <font>
+            <Font size="19.0" />
+         </font>
+      </Label>
+      <ImageView fx:id="suggestedUserProfile3" fitHeight="52.0" fitWidth="59.0" layoutX="58.0" layoutY="125.0" pickOnBounds="true" />
+      <Label fx:id="suggestedUserName3" layoutX="123.0" layoutY="125.0" prefHeight="52.0" prefWidth="145.0">
+         <font>
+            <Font size="19.0" />
+         </font>
+      </Label>
+      <ImageView fx:id="suggestedUserProfile4" fitHeight="52.0" fitWidth="59.0" layoutX="344.0" layoutY="125.0" pickOnBounds="true" />
+      <Label fx:id="suggestedUserName4" layoutX="416.0" layoutY="125.0" prefHeight="52.0" prefWidth="145.0">
+         <font>
+            <Font size="19.0" />
+         </font>
+      </Label>
+      <ImageView fx:id="suggestedUserProfile5" fitHeight="52.0" fitWidth="59.0" layoutX="58.0" layoutY="219.0" pickOnBounds="true" />
+      <Label fx:id="suggestedUserName5" layoutX="123.0" layoutY="219.0" prefHeight="52.0" prefWidth="145.0">
+         <font>
+            <Font size="19.0" />
+         </font>
+      </Label>
+      <ImageView fx:id="suggestedUserProfile6" fitHeight="52.0" fitWidth="59.0" layoutX="344.0" layoutY="219.0" pickOnBounds="true" />
+      <Label fx:id="suggestedUserName6" layoutX="416.0" layoutY="219.0" prefHeight="52.0" prefWidth="145.0">
+         <font>
+            <Font size="19.0" />
+         </font>
+      </Label>
+   </children>
+</Pane>

@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onMouseEntered="#setSettingsPage" prefHeight="776.0" prefWidth="973.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.graphicalproject.HelloController">
+   <children>
+      <Button fx:id="homePageInSettingsPage" layoutX="56.0" layoutY="128.0" mnemonicParsing="false" onAction="#fromSettingsPageToHomePage" prefHeight="39.0" prefWidth="129.0" text="Home page" />
+      <Button layoutX="56.0" layoutY="190.0" mnemonicParsing="false" onAction="#fromSettingsPageToMyPage" prefHeight="39.0" prefWidth="129.0" text="My page" />
+      <Button layoutX="56.0" layoutY="309.0" mnemonicParsing="false" onAction="#fromSettingsPageToCreateNewPost" prefHeight="39.0" prefWidth="129.0" text="Create new post" />
+      <Button layoutX="56.0" layoutY="250.0" mnemonicParsing="false" prefHeight="39.0" prefWidth="129.0" text="My chats" />
+      <TextField fx:id="searchedUserInSettingsPage" layoutX="204.0" layoutY="47.0" prefHeight="48.0" prefWidth="222.0" promptText="search...">
+         <font>
+            <Font size="22.0" />
+         </font>
+      </TextField>
+      <Button layoutX="56.0" layoutY="477.0" mnemonicParsing="false" onAction="#logoutFromSettingsPage" prefHeight="39.0" prefWidth="129.0" text="Logout" />
+      <ImageView fx:id="themeInSettings" fitHeight="671.0" fitWidth="768.0" layoutX="204.0" layoutY="106.0" pickOnBounds="true">
+         <image>
+            <Image url="@../../../light theme.jpg" />
+         </image></ImageView>
+      <Button layoutX="462.0" layoutY="47.0" mnemonicParsing="false" onAction="#searchUserInSettingsPage" prefHeight="48.0" prefWidth="102.0" text="Search">
+         <font>
+            <Font size="21.0" />
+         </font></Button>
+      <Label fx:id="searchUserMessageInSettingsPage" layoutX="602.0" layoutY="47.0" prefHeight="48.0" prefWidth="171.0">
+         <font>
+            <Font size="21.0" />
+         </font>
+      </Label>
+      <Button layoutX="56.0" layoutY="422.0" mnemonicParsing="false" prefHeight="39.0" prefWidth="129.0" text="Settings" />
+      <Button layoutX="573.0" layoutY="167.0" mnemonicParsing="false" onAction="#setProfile" prefHeight="56.0" prefWidth="184.0" text="Set Profile">
+         <font>
+            <Font size="26.0" />
+         </font></Button>
+      <TextField fx:id="profile" layoutX="274.0" layoutY="167.0" prefHeight="56.0" prefWidth="242.0" promptText="Your profile">
+         <font>
+            <Font size="25.0" />
+         </font></TextField>
+      <MenuButton layoutX="274.0" layoutY="258.0" mnemonicParsing="false" prefHeight="56.0" prefWidth="184.0" text="    Theme">
+         <font>
+            <Font size="26.0" />
+         </font>
+         <items>
+            <CheckMenuItem fx:id="lightTheme" mnemonicParsing="false" onAction="#lightTheme" text="Light" />
+            <CheckMenuItem fx:id="darkTheme" mnemonicParsing="false" onAction="#darkTheme" text="Dark" />
+         </items>
+      </MenuButton>
+      <Button layoutX="56.0" layoutY="369.0" mnemonicParsing="false" onAction="#suggestedUsersPage" prefHeight="39.0" prefWidth="129.0" text="Suggested users" />
+   </children>
+</Pane>

@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onMouseEntered="#setMyPage" prefHeight="825.0" prefWidth="973.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.graphicalproject.HelloController">
+   <children>
+      <Button fx:id="homePageInMyPage" layoutX="56.0" layoutY="128.0" mnemonicParsing="false" onAction="#fromMyPageToHomePage" prefHeight="39.0" prefWidth="129.0" text="Home page" />
+      <Button layoutX="56.0" layoutY="190.0" mnemonicParsing="false" prefHeight="39.0" prefWidth="129.0" text="My page" />
+      <Button layoutX="56.0" layoutY="309.0" mnemonicParsing="false" onAction="#fromMyPageToCreateNewPost" prefHeight="39.0" prefWidth="129.0" text="Create new post" />
+      <Button layoutX="56.0" layoutY="250.0" mnemonicParsing="false" prefHeight="39.0" prefWidth="129.0" text="My chats" />
+      <TextField fx:id="searchedUserInMyPage" layoutX="209.0" layoutY="11.0" prefHeight="48.0" prefWidth="222.0" promptText="search...">
+         <font>
+            <Font size="22.0" />
+         </font>
+      </TextField>
+      <Button layoutX="56.0" layoutY="473.0" mnemonicParsing="false" onAction="#logoutFromMyPage" prefHeight="39.0" prefWidth="129.0" text="Logout" />
+      <ImageView fx:id="themeInMyPage" fitHeight="765.0" fitWidth="768.0" layoutX="209.0" layoutY="59.0" pickOnBounds="true">
+         <image>
+            <Image url="@../../../light theme.jpg" />
+         </image></ImageView>
+      <Button layoutX="462.0" layoutY="11.0" mnemonicParsing="false" onAction="#searchUserInMyPage" prefHeight="48.0" prefWidth="102.0" text="Search">
+         <font>
+            <Font size="21.0" />
+         </font></Button>
+      <Label fx:id="searchUserMessageInMyPage" layoutX="602.0" layoutY="47.0" prefHeight="48.0" prefWidth="171.0">
+         <font>
+            <Font size="21.0" />
+         </font>
+      </Label>
+      <ImageView fx:id="myProfileImage" fitHeight="57.0" fitWidth="70.0" layoutX="250.0" layoutY="67.0" pickOnBounds="true" />
+      <Button layoutX="56.0" layoutY="422.0" mnemonicParsing="false" onAction="#fromMyPageToSettingsPage" prefHeight="39.0" prefWidth="129.0" text="Settings" />
+      <Button fx:id="userNameInMyPage" layoutX="220.0" layoutY="127.0" mnemonicParsing="false" prefHeight="42.0" prefWidth="139.0" textAlignment="CENTER">
+         <font>
+            <Font size="19.0" />
+         </font>
+      </Button>
+      <Button fx:id="followersInMyPage" layoutX="418.0" layoutY="127.0" mnemonicParsing="false" prefHeight="42.0" prefWidth="152.0">
+         <font>
+            <Font size="19.0" />
+         </font>
+      </Button>
+      <Button fx:id="followingsInMyPage" layoutX="618.0" layoutY="127.0" mnemonicParsing="false" prefHeight="42.0" prefWidth="145.0">
+         <font>
+            <Font size="19.0" />
+         </font>
+      </Button>
+      <ImageView fx:id="postInMyPage" fitHeight="315.0" fitWidth="412.0" layoutX="362.0" layoutY="174.0" pickOnBounds="true" />
+      <Label fx:id="captionInMyPage" layoutX="369.0" layoutY="489.0" prefHeight="45.0" prefWidth="412.0">
+         <font>
+            <Font size="20.0" />
+         </font>
+      </Label>
+      <Button layoutX="239.0" layoutY="323.0" mnemonicParsing="false" onAction="#previousPostInMyPage" prefHeight="39.0" prefWidth="102.0" text="Previous">
+         <font>
+            <Font size="19.0" />
+         </font>
+      </Button>
+      <Button layoutX="818.0" layoutY="322.0" mnemonicParsing="false" onAction="#nextPostInMyPage" prefHeight="42.0" prefWidth="102.0" text="Next">
+         <font>
+            <Font size="21.0" />
+         </font>
+      </Button>
+      <Button fx:id="likesInMyPage" layoutX="365.0" layoutY="539.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="122.0">
+         <font>
+            <Font size="23.0" />
+         </font>
+      </Button>
+      <Button layoutX="724.0" layoutY="754.0" mnemonicParsing="false" onAction="#commentInMyPage" prefHeight="50.0" prefWidth="114.0" text="Comment">
+         <font>
+            <Font size="19.0" />
+         </font>
+      </Button>
+      <Button layoutX="521.0" layoutY="540.0" mnemonicParsing="false" onAction="#removeInMyPage" prefHeight="48.0" prefWidth="114.0" text="Remove">
+         <font>
+            <Font size="19.0" />
+         </font>
+      </Button>
+      <TextField fx:id="commentOrReplyInMyPage" layoutX="261.0" layoutY="754.0" prefHeight="50.0" prefWidth="451.0" promptText="Comment or Reply">
+         <font>
+            <Font size="20.0" />
+         </font></TextField>
+      <Button layoutX="845.0" layoutY="754.0" mnemonicParsing="false" onAction="#replyInMyPage" prefHeight="50.0" prefWidth="114.0" text="Reply">
+         <font>
+            <Font size="20.0" />
+         </font>
+      </Button>
+      <ImageView fx:id="profileCommentInMyPage" fitHeight="48.0" fitWidth="49.0" layoutX="369.0" layoutY="595.0" pickOnBounds="true" />
+      <Label fx:id="commentInMyPage" layoutX="422.0" layoutY="595.0" prefHeight="48.0" prefWidth="392.0">
+         <font>
+            <Font size="19.0" />
+         </font>
+      </Label>
+      <Button layoutX="367.0" layoutY="646.0" mnemonicParsing="false" onAction="#likeCommentInMyPage" prefHeight="48.0" prefWidth="122.0" />
+      <ImageView fx:id="profileReplyInMyPage" fitHeight="48.0" fitWidth="49.0" layoutX="369.0" layoutY="696.0" pickOnBounds="true" />
+      <Label fx:id="replyInMyPage" layoutX="422.0" layoutY="696.0" prefHeight="48.0" prefWidth="392.0">
+         <font>
+            <Font size="20.0" />
+         </font>
+      </Label>
+      <ImageView fx:id="likeCommentInMyPage" fitHeight="50.0" fitWidth="49.0" layoutX="369.0" layoutY="645.0" pickOnBounds="true" preserveRatio="true" />
+      <Button layoutX="239.0" layoutY="600.0" mnemonicParsing="false" onAction="#previousCommentInMyPage" prefHeight="39.0" prefWidth="102.0" text="Previous">
+         <font>
+            <Font size="19.0" />
+         </font></Button>
+      <Button layoutX="818.0" layoutY="600.0" mnemonicParsing="false" onAction="#nextCommentInMyPage" prefHeight="42.0" prefWidth="102.0" text="Next">
+         <font>
+            <Font size="19.0" />
+         </font>
+      </Button>
+      <Button layoutX="239.0" layoutY="697.0" mnemonicParsing="false" onAction="#previousReplyInMyPage" prefHeight="42.0" prefWidth="102.0" text="Previous">
+         <font>
+            <Font size="19.0" />
+         </font>
+      </Button>
+      <Button layoutX="818.0" layoutY="682.0" mnemonicParsing="false" onAction="#nextReplyInMyPage" prefHeight="42.0" prefWidth="102.0" text="Next">
+         <font>
+            <Font size="19.0" />
+         </font>
+      </Button>
+      <Button fx:id="profileViewInMyPage" layoutX="806.0" layoutY="124.0" mnemonicParsing="false" onAction="#profileViews" prefHeight="42.0" prefWidth="139.0" text="Profile views" visible="false">
+         <font>
+            <Font size="19.0" />
+         </font>
+      </Button>
+      <Button fx:id="viewsStatsInMyPage" layoutX="663.0" layoutY="540.0" mnemonicParsing="false" onAction="#postViews" prefHeight="48.0" prefWidth="122.0" text="Views stats" visible="false">
+         <font>
+            <Font size="19.0" />
+         </font>
+      </Button>
+      <Button fx:id="likesStatsInMyPage" layoutX="818.0" layoutY="539.0" mnemonicParsing="false" onAction="#postLikes" prefHeight="45.0" prefWidth="122.0" text="Likes stats" visible="false">
+         <font>
+            <Font size="19.0" />
+         </font></Button>
+      <Button layoutX="56.0" layoutY="365.0" mnemonicParsing="false" onAction="#suggestedUsersPage" prefHeight="39.0" prefWidth="129.0" text="Suggested users" />
+   </children>
+</Pane>
