@@ -22,7 +22,7 @@ public class Repository {
     }
 
     public static Connection connectToDataBase() throws SQLException {
-        String url = "jdbc:mysql://localhost:3306/Project",user = "root", password = "M2815165a#100%";
+        String url = "jdbc:mysql://localhost:3306/Project",user = "root", password = "";
         return DriverManager.getConnection(url,user,password);
     }
 }

@@ -10,15 +10,14 @@ public class SignUp {
 
 
 
-    public static String signup (String username,String password,String password2,String Gender,String Email,int BirthYear,int SQNumber,String answer,String accountType) throws SQLException {
+    public static String signup (String username,String password,String password2,int SQNumber,String answer,String accountType) throws SQLException {
         String result = "";
         int ID = User.getIDByUserName(username);
         if (ID!=-1) result += "username is already exists ";
         result += checkPassword(password);
         if (!password.equals(password2)) result += "passwords are not same ";
-        result += checkEmail(Email);
         if (result.isEmpty()) {
-            User.insertNewUser(username,password,Gender,Email,BirthYear,SQNumber,answer,accountType);
+            User.insertNewUser(username,password,SQNumber,answer,accountType);
             result = "sign up successfully";
         }
         return result;

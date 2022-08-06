@@ -7,12 +7,11 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Objects;
 
-public class User
-{
+public class User {
     private static final Statement statement = Repository.statement;
-    public static void insertNewUser (String username,String password,String Gender,String Email,int BirthYear,int SQNumber,String answer,String accountType) throws SQLException {
-        String sql = "INSERT INTO users (UserName, Password, Gender, Email, BirthYear, SQNumber, Answer, AccountType) values ('" + username+"','"+
-                password + "','" + Gender +"','" + Email + "','" + BirthYear + "','" + SQNumber + "','" + answer + "','" + accountType + "')";
+    public static void insertNewUser (String username,String password,int SQNumber,String answer,String accountType) throws SQLException {
+        String sql = "INSERT INTO users (UserName, Password, SQNumber, Answer, AccountType) values ('" + username+"','"+
+                password + "','"  + SQNumber + "','" + answer + "','" + accountType + "')";
         statement.execute(sql);
     }
     public static int getIDByUserName (String username) throws SQLException
