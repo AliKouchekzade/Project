@@ -1,0 +1,226 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.CheckBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.SplitMenuButton?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.shape.Rectangle?>
+<?import javafx.scene.text.Font?>
+
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="973.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.graphicalproject.HelloController">
+   <children>
+      <Button layoutX="56.0" layoutY="129.0" mnemonicParsing="false" onAction="#fromChatToHomePage" prefHeight="39.0" prefWidth="129.0" text="Home page" />
+      <Button layoutX="56.0" layoutY="190.0" mnemonicParsing="false" onAction="#fromChatToMyPage" prefHeight="39.0" prefWidth="129.0" text="My page" />
+      <Button layoutX="56.0" layoutY="309.0" mnemonicParsing="false" onAction="#fromChatToCreateNewPost" prefHeight="39.0" prefWidth="129.0" text="Create new post" />
+      <Button layoutX="56.0" layoutY="250.0" mnemonicParsing="false" prefHeight="39.0" prefWidth="129.0" text="My chats" />
+      <Button layoutX="56.0" layoutY="478.0" mnemonicParsing="false" onAction="#logoutFromChat" prefHeight="39.0" prefWidth="129.0" text="Logout" />
+      <Button layoutX="56.0" layoutY="425.0" mnemonicParsing="false" onAction="#fromChatToSettingPage" prefHeight="39.0" prefWidth="129.0" text="Settings" />
+      <Button layoutX="56.0" layoutY="366.0" mnemonicParsing="false" onAction="#suggestedUsersPage" prefHeight="39.0" prefWidth="129.0" text="Suggested users" />
+      <TextField fx:id="searchedUserInChat" layoutX="205.0" layoutY="7.0" prefHeight="48.0" prefWidth="222.0" promptText="search...">
+         <font>
+            <Font size="22.0" />
+         </font>
+      </TextField>
+      <Button layoutX="463.0" layoutY="7.0" mnemonicParsing="false" onAction="#searchUserInChat" prefHeight="48.0" prefWidth="102.0" text="Search">
+         <font>
+            <Font size="21.0" />
+         </font>
+      </Button>
+      <ImageView fx:id="themeInChat" fitHeight="634.0" fitWidth="768.0" layoutX="203.0" layoutY="67.0" pickOnBounds="true">
+         <image>
+            <Image url="@../../../light theme.jpg" />
+         </image>
+      </ImageView>
+      <Label fx:id="searchUserMessageInChat" layoutX="586.0" layoutY="7.0" prefHeight="48.0" prefWidth="171.0">
+         <font>
+            <Font size="21.0" />
+         </font>
+      </Label>
+      <TableView fx:id="chatListTable" layoutX="211.0" layoutY="76.0" prefHeight="548.0" prefWidth="210.0" />
+      <ListView fx:id="chatPageListView" layoutX="421.0" layoutY="145.0" prefHeight="479.0" prefWidth="535.0" />
+      <TableView fx:id="groupChatTable" layoutX="421.0" layoutY="118.0" prefHeight="506.0" prefWidth="535.0" visible="false" />
+      <Rectangle arcHeight="10.0" arcWidth="10.0" fill="#23ff1f" height="77.0" layoutX="421.0" layoutY="67.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="535.0" />
+      <ImageView fitHeight="30.0" fitWidth="210.0" layoutX="211.0" layoutY="70.0" pickOnBounds="true">
+         <image>
+            <Image url="@../../../light%20theme.jpg" />
+         </image>
+      </ImageView>
+      <ImageView fx:id="chatProfileImageView" fitHeight="77.0" fitWidth="77.0" layoutX="430.0" layoutY="67.0" pickOnBounds="true" />
+      <Label fx:id="chatNameLabel" layoutX="520.0" layoutY="85.0" onMouseClicked="#showGroupDetail" prefHeight="42.0" prefWidth="348.0" style="-fx-label-padding: 5 20 5 20;" textFill="WHITE">
+         <font>
+            <Font size="25.0" />
+         </font>
+      </Label>
+      <TextField fx:id="messageTextField" layoutX="421.0" layoutY="622.0" prefHeight="39.0" prefWidth="495.0" promptText="type your message" />
+      <ImageView fitHeight="39.0" fitWidth="41.0" layoutX="915.0" layoutY="622.0" onMouseClicked="#sendMessage" pickOnBounds="true">
+         <image>
+            <Image url="@../../../sendMessageIcon.png" />
+         </image>
+      </ImageView>
+      <ImageView fx:id="editMessageIcon" fitHeight="39.0" fitWidth="41.0" layoutX="915.0" layoutY="622.0" onMouseClicked="#EditMessage" pickOnBounds="true" visible="false">
+         <image>
+            <Image url="@../../../sendMessageIcon.png" />
+         </image>
+      </ImageView>
+      <Pane fx:id="userMessageDetailPane" layoutX="24.0" layoutY="508.0" prefHeight="80.0" prefWidth="145.0" visible="false">
+         <children>
+            <Rectangle arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="80.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="145.0" />
+            <Label fx:id="replyMessageInUserLabel" alignment="CENTER" onMouseClicked="#setReply" onMouseEntered="#hover" onMouseExited="#undoHover" prefHeight="40.0" prefWidth="145.0" text="Reply" />
+            <Label alignment="CENTER" layoutY="40.0" onMouseClicked="#setForward" onMouseEntered="#hover" onMouseExited="#undoHover" prefHeight="40.0" prefWidth="145.0" text="Forward" />
+            <ImageView fitHeight="40.0" fitWidth="30.0" layoutX="12.0" layoutY="40.0" pickOnBounds="true">
+               <image>
+                  <Image url="@../../../forward.png" />
+               </image>
+            </ImageView>
+            <ImageView fitHeight="40.0" fitWidth="30.0" layoutX="10.0" pickOnBounds="true">
+               <image>
+                  <Image url="@../../../reply.png" />
+               </image>
+            </ImageView>
+         </children>
+      </Pane>
+      <Pane fx:id="myMessageDetailPane" layoutX="14.0" layoutY="498.0" prefHeight="160.0" prefWidth="145.0" visible="false">
+         <children>
+            <Rectangle arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="160.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="145.0" />
+            <Label fx:id="replyMessageInMyLabel" alignment="CENTER" onMouseClicked="#setReply" onMouseEntered="#hover" onMouseExited="#undoHover" prefHeight="40.0" prefWidth="145.0" text="Reply" />
+            <Label fx:id="editMessageLabel" alignment="CENTER" layoutY="40.0" onMouseClicked="#setEdit" onMouseEntered="#hover" onMouseExited="#undoHover" prefHeight="40.0" prefWidth="145.0" text="Edit" />
+            <Label alignment="CENTER" layoutY="80.0" onMouseClicked="#setForward" onMouseEntered="#hover" onMouseExited="#undoHover" prefHeight="40.0" prefWidth="145.0" text="Forward" />
+            <Label alignment="CENTER" layoutY="120.0" onMouseClicked="#deleteMessage" onMouseEntered="#hover" onMouseExited="#undoHover" prefHeight="40.0" prefWidth="145.0" text="Delete" />
+            <ImageView fitHeight="40.0" fitWidth="30.0" layoutX="14.0" pickOnBounds="true">
+               <image>
+                  <Image url="@../../../reply.png" />
+               </image>
+            </ImageView>
+            <ImageView fitHeight="30.0" fitWidth="30.0" layoutX="14.0" layoutY="45.0" pickOnBounds="true">
+               <image>
+                  <Image url="@../../../edit.png" />
+               </image>
+            </ImageView>
+            <ImageView fitHeight="40.0" fitWidth="30.0" layoutX="14.0" layoutY="81.0" pickOnBounds="true">
+               <image>
+                  <Image url="@../../../forward.png" />
+               </image>
+            </ImageView>
+            <ImageView fitHeight="30.0" fitWidth="30.0" layoutX="14.0" layoutY="125.0" pickOnBounds="true">
+               <image>
+                  <Image url="@../../../delete.png" />
+               </image>
+            </ImageView>
+         </children>
+      </Pane>
+      <SplitMenuButton fx:id="moreOption" layoutX="874.0" layoutY="94.0" mnemonicParsing="false" text="more" visible="false">
+        <items>
+          <MenuItem fx:id="blockLabel" mnemonicParsing="false" onAction="#blockAndUnblock" />
+        </items>
+      </SplitMenuButton>
+      <Pane fx:id="replyMessagePane" layoutX="421.0" layoutY="583.0" prefHeight="40.0" prefWidth="535.0" visible="false">
+         <children>
+            <Label fx:id="replyMessageLabel" layoutX="33.0" prefHeight="40.0" prefWidth="501.0" style="-fx-background-color: red;" text="Label" textFill="WHITE">
+               <font>
+                  <Font size="20.0" />
+               </font>
+            </Label>
+            <ImageView fitHeight="40.0" fitWidth="33.0" pickOnBounds="true">
+               <image>
+                  <Image url="@../../../reply.png" />
+               </image>
+            </ImageView>
+            <ImageView fitHeight="30.0" fitWidth="30.0" layoutX="504.0" layoutY="5.0" onMouseClicked="#cancelReply" pickOnBounds="true">
+               <image>
+                  <Image url="@../../../cancel.png" />
+               </image>
+            </ImageView>
+         </children>
+      </Pane>
+      <TextField fx:id="searchUserToChatTextField" layoutX="211.0" layoutY="622.0" prefHeight="39.0" prefWidth="210.0" promptText="search user " />
+      <ImageView fitHeight="35.0" fitWidth="41.0" layoutX="380.0" layoutY="625.0" onMouseClicked="#searchUserToChat" pickOnBounds="true">
+         <image>
+            <Image url="@../../../search.png" />
+         </image>
+      </ImageView>
+      <Label fx:id="notFoundInSearchToChatLabel" layoutX="213.0" layoutY="665.0" onMouseClicked="#unVisible" text="User Not Found" textFill="#e80f0f" visible="false">
+         <font>
+            <Font size="20.0" />
+         </font>
+      </Label>
+      <CheckBox fx:id="directMessageCheckBox" layoutX="214.0" layoutY="604.0" mnemonicParsing="false" onMouseClicked="#chatFilter" selected="true" text="Direct Message" />
+      <CheckBox fx:id="groupCheckBox" layoutX="327.0" layoutY="604.0" mnemonicParsing="false" onMouseClicked="#chatFilter" selected="true" text="Group" />
+      <Button fx:id="createNewGroupButton" layoutX="365.0" layoutY="71.0" mnemonicParsing="false" onAction="#createNewGroup" prefHeight="27.0" prefWidth="52.0" text="create" visible="false" />
+      <SplitMenuButton fx:id="createNewGroupSplitMenu" layoutX="350.0" layoutY="72.0" mnemonicParsing="false" text="more">
+        <items>
+          <MenuItem mnemonicParsing="false" onAction="#setCreateNewGroup" text="Create New Group" />
+        </items>
+      </SplitMenuButton>
+      <TextField fx:id="createNewGroupTextField" layoutX="212.0" layoutY="71.0" prefHeight="27.0" prefWidth="150.0" promptText="enter group name" visible="false" />
+      <Rectangle fx:id="blackBackGround" height="700.0" opacity="0.6" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" visible="false" width="973.0" />
+      <Pane fx:id="groupDetailPane" layoutX="563.0" layoutY="166.0" prefHeight="430.0" prefWidth="250.0" visible="false">
+         <children>
+            <Rectangle arcHeight="25.0" arcWidth="25.0" fill="DODGERBLUE" height="430.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="250.0" />
+            <ImageView fx:id="groupProfileInDetail" fitHeight="77.0" fitWidth="77.0" layoutX="3.0" layoutY="3.0" pickOnBounds="true">
+               <image>
+                  <Image url="@../../../profile4.png" />
+               </image>
+            </ImageView>
+            <Label fx:id="groupNameInDetail" layoutX="87.0" layoutY="10.0" text="group Name" textFill="WHITE">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </Label>
+            <Label fx:id="groupMembersInDetail" layoutX="89.0" layoutY="53.0" text="members" textFill="WHITE">
+               <font>
+                  <Font size="15.0" />
+               </font>
+            </Label>
+            <ImageView fitHeight="30.0" fitWidth="30.0" layoutX="220.0" onMouseClicked="#closeGroupDetail" pickOnBounds="true">
+               <image>
+                  <Image url="@../../../cancel.png" />
+               </image>
+            </ImageView>
+            <TableView fx:id="groupMemberTable" layoutX="5.0" layoutY="90.0" prefHeight="300.0" prefWidth="240.0" />
+            <Rectangle fill="DODGERBLUE" height="30.0" layoutY="85.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="250.0" />
+            <SplitMenuButton fx:id="moreOptionInGroupDetail" layoutX="177.0" layoutY="51.0" mnemonicParsing="false" text="more">
+              <items>
+                <MenuItem mnemonicParsing="false" onAction="#setProfileForGroup" text="Set Profile Photo" />
+                <MenuItem mnemonicParsing="false" onAction="#setAddMember" text="Add Memeber" />
+              </items>
+            </SplitMenuButton>
+            <TextField fx:id="addMemberTextField" layoutX="5.0" layoutY="86.0" prefHeight="25.0" prefWidth="182.0" visible="false" />
+            <Button fx:id="addMemberButton" layoutX="193.0" layoutY="86.0" mnemonicParsing="false" onAction="#addMemberToGroup" prefHeight="25.0" prefWidth="52.0" text="Add" visible="false" />
+            <Label fx:id="notFoundInAddMemberLabel" layoutX="6.0" layoutY="85.0" onMouseClicked="#unVisible" text="User Not Found" textFill="#e80f0f" visible="false">
+               <font>
+                  <Font size="16.0" />
+               </font>
+            </Label>
+         </children>
+      </Pane>
+      <Pane fx:id="removeBanPane" layoutX="34.0" layoutY="518.0" prefHeight="80.0" prefWidth="145.0" visible="false">
+         <children>
+            <Rectangle arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="80.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="145.0" />
+            <Label fx:id="replyMessageInUserLabel1" alignment="CENTER" onMouseClicked="#removeMember" onMouseEntered="#hover" onMouseExited="#undoHover" prefHeight="40.0" prefWidth="145.0" text="Remove" />
+            <Label fx:id="banUnbanLabel" alignment="CENTER" layoutY="40.0" onMouseClicked="#banUnBanMember" onMouseEntered="#hover" onMouseExited="#undoHover" prefHeight="40.0" prefWidth="145.0" text="Ban" />
+            <ImageView fitHeight="40.0" fitWidth="30.0" layoutX="12.0" layoutY="40.0" pickOnBounds="true">
+               <image>
+                  <Image url="@../../../ban.png" />
+               </image>
+            </ImageView>
+            <ImageView fitHeight="30.0" fitWidth="30.0" layoutX="10.0" layoutY="5.0" pickOnBounds="true">
+               <image>
+                  <Image url="@../../../remove.png" />
+               </image>
+            </ImageView>
+         </children>
+      </Pane>
+      <ImageView fitHeight="33.0" fitWidth="33.0" layoutX="879.0" layoutY="625.0" onMouseClicked="#setChooseImage" pickOnBounds="true">
+         <image>
+            <Image url="@../../../attachment.png" />
+         </image>
+      </ImageView>
+   </children>
+</Pane>

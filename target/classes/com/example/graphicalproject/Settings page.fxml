@@ -1,24 +1,29 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.image.*?>
-<?import javafx.scene.layout.*?>
-<?import javafx.scene.text.*?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.CheckMenuItem?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.MenuButton?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.text.Font?>
 
-<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onMouseEntered="#setSettingsPage" prefHeight="776.0" prefWidth="973.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.graphicalproject.HelloController">
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="973.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.graphicalproject.HelloController">
    <children>
       <Button fx:id="homePageInSettingsPage" layoutX="56.0" layoutY="128.0" mnemonicParsing="false" onAction="#fromSettingsPageToHomePage" prefHeight="39.0" prefWidth="129.0" text="Home page" />
       <Button layoutX="56.0" layoutY="190.0" mnemonicParsing="false" onAction="#fromSettingsPageToMyPage" prefHeight="39.0" prefWidth="129.0" text="My page" />
       <Button layoutX="56.0" layoutY="309.0" mnemonicParsing="false" onAction="#fromSettingsPageToCreateNewPost" prefHeight="39.0" prefWidth="129.0" text="Create new post" />
-      <Button layoutX="56.0" layoutY="250.0" mnemonicParsing="false" prefHeight="39.0" prefWidth="129.0" text="My chats" />
+      <Button layoutX="56.0" layoutY="250.0" mnemonicParsing="false" onAction="#fromSettingPageToChat" prefHeight="39.0" prefWidth="129.0" text="My chats" />
       <TextField fx:id="searchedUserInSettingsPage" layoutX="204.0" layoutY="47.0" prefHeight="48.0" prefWidth="222.0" promptText="search...">
          <font>
             <Font size="22.0" />
          </font>
       </TextField>
       <Button layoutX="56.0" layoutY="477.0" mnemonicParsing="false" onAction="#logoutFromSettingsPage" prefHeight="39.0" prefWidth="129.0" text="Logout" />
-      <ImageView fx:id="themeInSettings" fitHeight="671.0" fitWidth="768.0" layoutX="204.0" layoutY="106.0" pickOnBounds="true">
+      <ImageView fx:id="themeInSettings" fitHeight="594.0" fitWidth="768.0" layoutX="204.0" layoutY="106.0" pickOnBounds="true">
          <image>
             <Image url="@../../../light theme.jpg" />
          </image></ImageView>
@@ -32,15 +37,11 @@
          </font>
       </Label>
       <Button layoutX="56.0" layoutY="422.0" mnemonicParsing="false" prefHeight="39.0" prefWidth="129.0" text="Settings" />
-      <Button layoutX="573.0" layoutY="167.0" mnemonicParsing="false" onAction="#setProfile" prefHeight="56.0" prefWidth="184.0" text="Set Profile">
+      <Button layoutX="728.0" layoutY="162.0" mnemonicParsing="false" onAction="#setProfile" prefHeight="46.0" prefWidth="201.0" text="choose profile">
          <font>
             <Font size="26.0" />
          </font></Button>
-      <TextField fx:id="profile" layoutX="274.0" layoutY="167.0" prefHeight="56.0" prefWidth="242.0" promptText="Your profile">
-         <font>
-            <Font size="25.0" />
-         </font></TextField>
-      <MenuButton layoutX="274.0" layoutY="258.0" mnemonicParsing="false" prefHeight="56.0" prefWidth="184.0" text="    Theme">
+      <MenuButton layoutX="246.0" layoutY="320.0" mnemonicParsing="false" prefHeight="56.0" prefWidth="184.0" text="    Theme">
          <font>
             <Font size="26.0" />
          </font>
@@ -50,5 +51,11 @@
          </items>
       </MenuButton>
       <Button layoutX="56.0" layoutY="369.0" mnemonicParsing="false" onAction="#suggestedUsersPage" prefHeight="39.0" prefWidth="129.0" text="Suggested users" />
+      <Label fx:id="myUserNameInSettingLabel" layoutX="250.0" layoutY="162.0" style="-fx-font-size: 25;" text="my user name">
+         <padding>
+            <Insets bottom="5.0" left="10.0" right="10.0" top="5.0" />
+         </padding>
+      </Label>
+      <ImageView fx:id="myProfileInSettingImageView" fitHeight="150.0" fitWidth="150.0" layoutX="513.0" layoutY="115.0" pickOnBounds="true" />
    </children>
 </Pane>

@@ -1,61 +1,174 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.text.*?>
-<?import javafx.scene.control.*?>
-<?import java.lang.*?>
-<?import javafx.scene.layout.*?>
+<?import java.lang.String?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
 
-<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="628.0" prefWidth="843.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.graphicalproject.HelloController">
-   <children>
-      <TextField fx:id="userNameInLoginPage" layoutX="422.0" layoutY="124.0" prefHeight="39.0" prefWidth="186.0">
-         <font>
-            <Font size="20.0" />
-         </font>
-      </TextField>
-      <PasswordField fx:id="passwordInLoginPage" layoutX="422.0" layoutY="198.0" prefHeight="39.0" prefWidth="186.0">
-         <font>
-            <Font size="20.0" />
-         </font>
-      </PasswordField>
-      <Label layoutX="212.0" layoutY="124.0" prefHeight="31.0" prefWidth="150.0" text="User Name :">
-         <font>
-            <Font size="27.0" />
-         </font>
-      </Label>
-      <Label layoutX="212.0" layoutY="198.0" prefHeight="39.0" prefWidth="150.0" text="Password :">
-         <font>
-            <Font size="27.0" />
-         </font>
-      </Label>
-      <Button layoutX="373.0" layoutY="269.0" mnemonicParsing="false" onAction="#login" prefHeight="57.0" prefWidth="129.0" text="Login">
-         <font>
-            <Font size="24.0" />
-         </font>
-      </Button>
-      <Label layoutX="28.0" layoutY="347.0" prefHeight="51.0" prefWidth="455.0" text="If you have forgot your password , click on :">
-         <font>
-            <Font size="23.0" />
-         </font>
-      </Label>
-      <Button layoutX="502.0" layoutY="348.0" mnemonicParsing="false" onAction="#passwordRecovery1" text="Forget">
-         <font>
-            <Font size="23.0" />
-         </font>
-      </Button>
-      <Label layoutX="28.0" layoutY="419.0" prefHeight="39.0" prefWidth="395.0" text="If you dont have an account , click on :">
-         <font>
-            <Font size="23.0" />
-         </font>
-      </Label>
-      <Button layoutX="447.0" layoutY="414.0" mnemonicParsing="false" onAction="#signup1" prefHeight="50.0" prefWidth="111.0" text="Sign up">
-         <font>
-            <Font size="23.0" />
-         </font>
-      </Button>
-      <Label fx:id="messageInLoginPage" layoutX="165.0" layoutY="525.0" prefHeight="57.0" prefWidth="374.0">
-         <font>
-            <Font size="25.0" />
-         </font>
-      </Label>
-   </children>
-</Pane>
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="460.0" prefWidth="750.0" style="-fx-background-color: #f8f6e2;" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.graphicalproject.HelloController">
+   <right>
+      <VBox prefWidth="332.0" styleClass="vBox_background_right" stylesheets="@loginPage.css" BorderPane.alignment="CENTER">
+         <children>
+            <HBox prefHeight="71.0" prefWidth="332.0">
+               <children>
+                  <Text fill="#d39d50" strokeType="OUTSIDE" strokeWidth="0.0" text="javaFX" wrappingWidth="109.4091796875">
+                     <font>
+                        <Font name="Impact" size="42.0" />
+                     </font>
+                     <HBox.margin>
+                        <Insets left="100.0" top="70.0" />
+                     </HBox.margin>
+                  </Text>
+               </children>
+            </HBox>
+            <HBox prefHeight="44.0" prefWidth="332.0">
+               <children>
+                  <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="project">
+                     <font>
+                        <Font name="Impact" size="18.0" />
+                     </font>
+                     <HBox.margin>
+                        <Insets left="130.0" />
+                     </HBox.margin>
+                  </Text>
+               </children>
+            </HBox>
+            <HBox prefHeight="50.0" prefWidth="332.0">
+               <children>
+                  <TextField fx:id="userNameInLoginPage" prefHeight="40.0" prefWidth="263.0" promptText="UserName" style="-fx-background-radius: 50; -fx-border-radius: 50;">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                     <HBox.margin>
+                        <Insets left="34.5" top="10.0" />
+                     </HBox.margin>
+                  </TextField>
+               </children>
+            </HBox>
+            <HBox prefHeight="60.0" prefWidth="332.0">
+               <children>
+                  <Text fx:id="userDoesntFoundText" fill="#ff0202" strokeType="OUTSIDE" strokeWidth="0.0" text="UserName Doesn't Found" visible="false">
+                     <HBox.margin>
+                        <Insets left="40.0" />
+                     </HBox.margin>
+                  </Text>
+                  <PasswordField fx:id="passwordInLoginPage" prefHeight="40.0" prefWidth="263.0" promptText="Password" style="-fx-background-radius: 50; -fx-border-radius: 50;">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                     <HBox.margin>
+                        <Insets left="-141.0" top="20.0" />
+                     </HBox.margin>
+                  </PasswordField>
+               </children>
+            </HBox>
+            <HBox prefHeight="55.0" prefWidth="332.0">
+               <children>
+                  <Text fx:id="wrongPasswordText" fill="#ff0202" strokeType="OUTSIDE" strokeWidth="0.0" text="Password Is Wrong" visible="false">
+                     <HBox.margin>
+                        <Insets left="40.0" />
+                     </HBox.margin>
+                  </Text>
+                  <Button alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#login" prefHeight="40.0" prefWidth="263.0" style="-fx-background-radius: 50; -fx-border-radius: 50;" stylesheets="@loginPage.css" text="Login" textFill="WHITE">
+                     <HBox.margin>
+                        <Insets left="-105.0" top="20.0" />
+                     </HBox.margin>
+                     <font>
+                        <Font name="Calibri Bold" size="18.0" />
+                     </font>
+                     <styleClass>
+                        <String fx:value="cursor_hand" />
+                        <String fx:value="login_button" />
+                     </styleClass>
+                  </Button>
+               </children>
+            </HBox>
+            <Text fill="#4c5ce8" onMouseClicked="#passwordRecovery1" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="cursor_hand" text="Forgot Password ?">
+               <font>
+                  <Font name="System Bold" size="14.0" />
+               </font>
+               <VBox.margin>
+                  <Insets left="175.0" top="5.0" />
+               </VBox.margin>
+            </Text>
+         </children></VBox>
+   </right>
+   <center>
+      <VBox onDragDetected="#login" prefWidth="445.0" styleClass="vBox_background_center" stylesheets="@loginPage.css" BorderPane.alignment="CENTER">
+         <children>
+            <HBox prefHeight="96.0" prefWidth="418.0">
+               <children>
+                  <HBox alignment="CENTER_RIGHT" prefHeight="134.0" prefWidth="197.0">
+                     <HBox.margin>
+                        <Insets left="200.0" />
+                     </HBox.margin>
+                     <children>
+                        <Button mnemonicParsing="false" onAction="#signup1" prefHeight="37.0" prefWidth="90.0" style="-fx-background-radius: 50;" stylesheets="@loginPage.css" text="Sign Up">
+                           <font>
+                              <Font name="System Bold" size="16.0" />
+                           </font>
+                           <HBox.margin>
+                              <Insets right="5.0" />
+                           </HBox.margin>
+                           <styleClass>
+                              <String fx:value="signup_button" />
+                              <String fx:value="cursor_hand" />
+                           </styleClass></Button>
+                        <Button mnemonicParsing="false" prefHeight="37.0" prefWidth="90.0" style="-fx-background-radius: 50;" styleClass="login_button" stylesheets="@loginPage.css" text="Login" textFill="WHITE">
+                           <font>
+                              <Font name="System Bold" size="16.0" />
+                           </font></Button>
+                     </children>
+                  </HBox>
+               </children>
+            </HBox>
+            <HBox prefHeight="75.0" prefWidth="418.0">
+               <children>
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="oop ">
+                     <font>
+                        <Font name="Impact" size="48.0" />
+                     </font>
+                     <HBox.margin>
+                        <Insets left="90.0" top="85.0" />
+                     </HBox.margin>
+                  </Text>
+                  <Text fill="#d3aeae" strokeType="OUTSIDE" strokeWidth="0.0" text="Project">
+                     <font>
+                        <Font name="Impact" size="48.0" />
+                     </font>
+                     <HBox.margin>
+                        <Insets top="85.0" />
+                     </HBox.margin>
+                  </Text>
+               </children>
+            </HBox>
+            <HBox prefHeight="65.0" prefWidth="418.0">
+               <children>
+                  <Text fill="#d3aeae" strokeType="OUTSIDE" strokeWidth="0.0" text="with ">
+                     <font>
+                        <Font name="Impact" size="54.0" />
+                     </font>
+                     <HBox.margin>
+                        <Insets left="80.0" top="5.0" />
+                     </HBox.margin>
+                  </Text>
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="javaFX">
+                     <font>
+                        <Font name="Impact" size="54.0" />
+                     </font>
+                     <HBox.margin>
+                        <Insets top="5.0" />
+                     </HBox.margin>
+                  </Text>
+               </children>
+            </HBox>
+         </children>
+      </VBox>
+   </center>
+</BorderPane>
